@@ -1,0 +1,49 @@
+server:
+  servicename: dragon
+  host:
+  port: 1130
+  pprof: ## golang性能分析神器 use http://0.0.0.0:18066/debug/pprof
+    enable: true
+    host:
+    port: 18066
+database:
+  mysql:
+    master:
+      host: 127.0.0.1
+      port: 3306
+      user: root
+      password: 123456
+      database: travel
+      charset: utf8mb4,utf8
+      timeout: 3s  #connect timeout time
+      maxidle: 20  #maxIdle connections, db will at least serve 20 idle connections; if you set 0, that means no limit。
+      maxconn: 100  #maxConn connections, db will have 40 connections limit; if you set 0, that means no limit。
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    auth:
+    timeout: 3000 #redis dial timeout per millisecond. int type
+    db: 0
+  mongodb:
+    host: 127.0.0.1
+    port: 27017
+    username: dragon
+    password: dragon
+    database: dragon
+    timeout: 3 # timeout second
+kafka:
+  broker: 127.0.0.1:9092
+log:
+  dir: log # don't end with / , !!! release is root dir
+nacos:
+  enable: false
+  ip: 127.0.0.1       #nacos server ip
+  port: 8848          #nacos server port
+  clustername: dragon-cluster #service clusterName
+  groupname:                  #service groupName
+  idc: hangzhou
+zipkin:
+  enable: false
+  reporter: http://localhost:9411/api/v2/spans
+# this config key only use lower letter 此配置的key都强制使用全部小写
+
