@@ -25,7 +25,12 @@ var (
 //init config
 func InitConf() {
 	// init Intranet Ip
-	IntranetIp, _ = tools.GetClientIp()
+	if runtime.GOOS == "windows" {
+		// todo windows intranet ip get optimize
+		IntranetIp = "127.0.0.1"
+	} else {
+		IntranetIp, _ = tools.GetClientIp()
+	}
 	log.Println("intranet ip is " + IntranetIp)
 	dir, err := GetCurrentPath()
 	ExecDir = dir
