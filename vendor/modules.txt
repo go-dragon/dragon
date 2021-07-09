@@ -130,6 +130,7 @@ github.com/satori/go.uuid
 github.com/segmentio/kafka-go
 github.com/segmentio/kafka-go/sasl
 # github.com/shopspring/decimal v1.2.0
+## explicit
 github.com/shopspring/decimal
 # github.com/spf13/afero v1.1.2
 github.com/spf13/afero
