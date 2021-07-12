@@ -13,6 +13,7 @@ import (
 type IUserService interface {
 	GetOne() (*entity.UserEntity, error)
 	TransactionTest() error
+	GetOneUser(conds []map[string]interface{}, cols string) (*entity.UserEntity, error)
 }
 
 type UserService struct {
@@ -64,4 +65,10 @@ func (u *UserService) TransactionTest() error {
 	}
 	u.TxConnDB.Commit()
 	return nil
+}
+
+func (u *UserService) GetOneUser(conds []map[string]interface{}, cols string) (*entity.UserEntity, error) {
+	var userInfo entity.UserEntity
+	res := u.UserRepository.GetOne(&userInfo, conds, cols, "")
+	return &userInfo, res.Error
 }
