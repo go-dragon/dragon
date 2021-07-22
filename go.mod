@@ -3,8 +3,9 @@ module dragon
 go 1.16
 
 require (
-	github.com/go-dragon/erro v0.0.4
+	github.com/go-dragon/erro v0.0.4 // indirect
 	github.com/go-dragon/util v0.0.5
+	github.com/go-dragon/validator v1.0.0 // indirect
 	github.com/go-playground/validator/v10 v10.6.1
 	github.com/go-redis/redis v6.15.2+incompatible
 	github.com/gorilla/mux v1.7.3 // indirect
@@ -19,6 +20,7 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/streadway/amqp v1.0.0
 	go.mongodb.org/mongo-driver v1.3.0
+	go.uber.org/zap v1.15.0
 	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a // indirect
 	golang.org/x/net v0.0.0-20210510120150-4163338589ed // indirect
 	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e // indirect

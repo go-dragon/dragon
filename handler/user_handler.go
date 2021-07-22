@@ -2,12 +2,10 @@ package handler
 
 import (
 	"dragon/core/dragon"
-	"dragon/core/dragon/dlogger"
 	"dragon/core/dragon/goroutine"
 	"dragon/domain/repository"
 	"dragon/domain/service"
 	"dragon/handler/reqdata"
-	"github.com/go-dragon/erro"
 	"github.com/go-playground/validator/v10"
 	"net/http"
 )
@@ -26,8 +24,6 @@ func (u *UserHandler) Test(ctx *dragon.HttpContext) {
 	gid := goroutine.CurGoroutineID()
 	err := ctx.BindPostJson(&userReq)
 	if err != nil {
-		errs := erro.NewError(err)
-		dlogger.Error(errs)
 		ctx.Json(&dragon.Output{
 			Code: http.StatusBadRequest,
 			Msg:  http.StatusText(http.StatusBadRequest),
@@ -46,6 +42,9 @@ func (u *UserHandler) Test(ctx *dragon.HttpContext) {
 		}, http.StatusBadRequest)
 		return
 	}
+	// if something error
+	// dlogger.Error("errors")
+
 	// mongodb example
 	//mongoRes, err := dmongo.DefaultDB().Collection("c_device_log").InsertOne(context.Background(), bson.M{
 	//	"device_name": "golang",

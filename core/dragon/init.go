@@ -55,7 +55,5 @@ func AppInit() {
 	dmongo.InitDB()
 
 	// init logger
-	go func() {
-		dlogger.TickFlush()
-	}()
+	dlogger.Init()
 }

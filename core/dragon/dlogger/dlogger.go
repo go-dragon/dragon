@@ -1,16 +1,9 @@
 package dlogger
 
 import (
-	"bytes"
-	"dragon/core/dragon/conf"
-	"dragon/tools"
-	"fmt"
-	"github.com/go-dragon/util"
 	"github.com/spf13/viper"
-	"log"
+	"go.uber.org/zap"
 	"os"
-	"sync"
-	"time"
 )
 
 const (
@@ -22,37 +15,14 @@ const (
 	SqlErrorLevel = "SQL_ERROR"
 )
 
-// 日志buffer，定时扫描刷到磁盘中
-var logBuf = bytes.NewBufferString("")
+// LoggerZap
+var LoggerZap, _ = zap.NewProduction()
 
-// 日志缓存处理锁
-var logBufMutex = sync.Mutex{}
+// Enable enable to print logs
+var Enable = false
 
-// tick将日志写入文件中
-func TickFlush() {
-	tk := time.NewTicker(300 * time.Millisecond)
-	defer tk.Stop()
-	for range tk.C {
-		// 取出缓存区日志，固化到本地
-		logBufMutex.Lock()
-		content := logBuf.String()
-		bt, _ := tools.UnicodeToZh([]byte(content))
-		logBuf.Reset()
-		logBufMutex.Unlock()
-
-		// 根据data类型删除json或者字符串
-		now := time.Now()
-		date := now.Format("2006-01-02")
-		// 生成或打开文件
-		logDir := viper.GetString("log.dir")
-		path := conf.ExecDir + "/" + logDir + "/" + date + ".log"
-		logFile, err := os.OpenFile(path, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
-		if err != nil {
-			log.Println(fmt.Sprintf("error:%+v", err))
-		}
-		logFile.WriteString(string(bt))
-		logFile.Close()
-	}
+func Init()  {
+	Enable = viper.GetBool("log.enable")
 }
 
 // checkFileIsExist
@@ -65,20 +35,29 @@ func checkFileIsExist(filename string) bool {
 
 // write log
 func writeLog(level string, data ...interface{}) {
+	if !Enable {
+		return
+	}
 	if data == nil || len(data) == 0 {
 		// 如果data为空，不进行打印
 		return
 	}
-	var logInfo string
-	d, _ := util.FastJson.Marshal(&data)
-	logInfo = string(d)
-	// todo check if safe
-	datetime := time.Now().Format("2006-01-02 15:04:05")
-	content := fmt.Sprintf("[%s] [%s] || %s \r\n\r\n", datetime, level, logInfo)
-	// 写入缓冲区，日志
-	logBufMutex.Lock()
-	logBuf.WriteString(content)
-	logBufMutex.Unlock()
+	defer LoggerZap.Sync()
+	// 打印日志
+	switch level {
+	case DebugLevel:
+		LoggerZap.Debug(DebugLevel, zap.Any("body", data))
+	case SqlInfoLevel:
+		LoggerZap.Info(SqlInfoLevel, zap.Any("body", data))
+	case InfoLevel:
+		LoggerZap.Info(InfoLevel, zap.Any("body", data))
+	case WarnLevel:
+		LoggerZap.Warn(WarnLevel, zap.Any("body", data))
+	case SqlErrorLevel:
+		LoggerZap.Error(SqlErrorLevel, zap.Any("body", data))
+	case ErrorLevel:
+		LoggerZap.Error(ErrorLevel, zap.Any("body", data))
+	}
 }
 
 func Debug(data ...interface{}) {
