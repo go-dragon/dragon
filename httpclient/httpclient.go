@@ -146,6 +146,9 @@ func (c *Client) send(url string, params map[string]string, method string, heade
 	}
 
 	rsp, err := c.HttpCli.Do(req)
+	if rsp != nil {
+		defer rsp.Body.Close()
+	}
 	if err != nil {
 		log.Println(err)
 		resp = &Response{
@@ -155,7 +158,6 @@ func (c *Client) send(url string, params map[string]string, method string, heade
 		}
 		return
 	}
-	defer rsp.Body.Close()
 
 	content, errR := ioutil.ReadAll(rsp.Body)
 	contentStr := string(content)
@@ -184,6 +186,9 @@ func (c *Client) POSTJson(url string, paramsStr string) (resp *Response) {
 	req, _ = http.NewRequest("POST", url, strings.NewReader(paramsStr))
 	req.Header.Add("Content-Type", "application/json")
 	rsp, err := c.HttpCli.Do(req)
+	if rsp != nil {
+		defer rsp.Body.Close()
+	}
 
 	if err != nil {
 		resp = &Response{
@@ -193,7 +198,6 @@ func (c *Client) POSTJson(url string, paramsStr string) (resp *Response) {
 		}
 		return
 	}
-	defer rsp.Body.Close()
 
 	content, errR := ioutil.ReadAll(rsp.Body)
 

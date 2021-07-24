@@ -2,7 +2,6 @@ package handler
 
 import (
 	"dragon/core/dragon"
-	"dragon/core/dragon/goroutine"
 	"dragon/domain/repository"
 	"dragon/domain/service"
 	"dragon/handler/reqdata"
@@ -21,13 +20,13 @@ type UserHandler struct {
 func (u *UserHandler) Test(ctx *dragon.HttpContext) {
 	var userReq reqdata.UserReq
 	// bind json to struct
-	gid := goroutine.CurGoroutineID()
+	//gid := goroutine.CurGoroutineID()
 	err := ctx.BindPostJson(&userReq)
 	if err != nil {
 		ctx.Json(&dragon.Output{
 			Code: http.StatusBadRequest,
 			Msg:  http.StatusText(http.StatusBadRequest),
-			Data: gid,
+			Data: nil,
 		}, http.StatusBadRequest)
 		return
 	}
