@@ -40,7 +40,6 @@ type IBaseRepository interface {
 func NewDefaultTx() *gorm.DB {
 	return GormDB.Session(&gorm.Session{
 		PrepareStmt:            true,
-		WithConditions:         true,
 		SkipDefaultTransaction: true,
 		Context:                GormDB.Statement.Context,
 	})
@@ -189,7 +188,8 @@ type Logger struct {
 func (l Logger) Printf(s string, i ...interface{}) {
 	s = fmt.Sprintf(s, i...)
 	// 日志打印
-	res, _ := regexp.MatchString("Error", s)
+	res, _ := regexp.MatchString("(Error)|(SLOW SQL)", s)
+
 	// if sql error
 	if res {
 		dlogger.SqlError(s)
