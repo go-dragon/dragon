@@ -21,7 +21,7 @@ var LoggerZap, _ = zap.NewProduction()
 // Enable enable to print logs
 var Enable = false
 
-func Init()  {
+func Init() {
 	Enable = viper.GetBool("log.enable")
 }
 

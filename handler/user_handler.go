@@ -18,29 +18,29 @@ type UserHandler struct {
 }
 
 func (u *UserHandler) Test(ctx *dragon.HttpContext) {
-	//var userReq reqdata.UserReq
-	//// bind json to struct
-	////gid := goroutine.CurGoroutineID()
-	//err := ctx.BindPostJson(&userReq)
-	//if err != nil {
-	//	ctx.Json(&dragon.Output{
-	//		Code: http.StatusBadRequest,
-	//		Msg:  http.StatusText(http.StatusBadRequest),
-	//		Data: nil,
-	//	}, http.StatusBadRequest)
-	//	return
-	//}
-	//
-	//v := validator.New()
-	//err = v.Struct(&userReq)
-	//if err != nil {
-	//	ctx.Json(&dragon.Output{
-	//		Code: http.StatusBadRequest,
-	//		Msg:  err.Error(),
-	//		Data: err,
-	//	}, http.StatusBadRequest)
-	//	return
-	//}
+	var userReq reqdata.UserReq
+	// bind json to struct
+	//gid := goroutine.CurGoroutineID()
+	err := ctx.BindPostJson(&userReq)
+	if err != nil {
+		ctx.Json(&dragon.Output{
+			Code: http.StatusBadRequest,
+			Msg:  http.StatusText(http.StatusBadRequest),
+			Data: nil,
+		}, http.StatusBadRequest)
+		return
+	}
+
+	v := validator.New()
+	err = v.Struct(&userReq)
+	if err != nil {
+		ctx.Json(&dragon.Output{
+			Code: http.StatusBadRequest,
+			Msg:  err.Error(),
+			Data: err,
+		}, http.StatusBadRequest)
+		return
+	}
 	// if something error
 	// dlogger.Error("errors")
 
