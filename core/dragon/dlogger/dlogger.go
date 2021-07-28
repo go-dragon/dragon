@@ -7,7 +7,6 @@ import (
 )
 
 const (
-	DebugLevel    = "DEBUG"
 	InfoLevel     = "INFO"
 	WarnLevel     = "WARN"
 	ErrorLevel    = "FATAL_ERROR"
@@ -45,8 +44,6 @@ func writeLog(level string, data ...interface{}) {
 	defer LoggerZap.Sync()
 	// 打印日志
 	switch level {
-	case DebugLevel:
-		LoggerZap.Debug(DebugLevel, zap.Any("body", data))
 	case SqlInfoLevel:
 		LoggerZap.Info(SqlInfoLevel, zap.Any("body", data))
 	case InfoLevel:
@@ -58,10 +55,6 @@ func writeLog(level string, data ...interface{}) {
 	case ErrorLevel:
 		LoggerZap.Error(ErrorLevel, zap.Any("body", data))
 	}
-}
-
-func Debug(data ...interface{}) {
-	writeLog(DebugLevel, data...)
 }
 
 func Info(data ...interface{}) {
