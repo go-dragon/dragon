@@ -97,7 +97,7 @@ func (u *UserHandler) GetOneUser(ctx *dragon.HttpContext) {
 	}
 	mbSrv := service.NewUserService(repository.GormDB)
 	conds := []map[string]interface{}{
-		{"member_id": reqData.FirstName},
+		{"member_id = ?": reqData.FirstName},
 	}
 	mbInfo, err := mbSrv.GetOneUser(conds, "*")
 	if err != nil {
