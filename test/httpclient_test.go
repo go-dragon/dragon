@@ -4,18 +4,50 @@ import (
 	"dragon/httpclient"
 	"fmt"
 	"log"
+	"net/http"
+	"reflect"
 	"testing"
 )
 
 // test GET
-func TestGET(t *testing.T) {
-	res := httpclient.DefaultClient.GET("https://qwu.zero-w.cn", nil, nil)
-
-	if res.Err != nil {
-		log.Println(res.Err)
+func TestClient_GET(t *testing.T) {
+	type fields struct {
+		HttpCli *http.Client
 	}
-	fmt.Println(res.Content)
-	fmt.Println(res.Status)
+	type args struct {
+		url     string
+		params  map[string]string
+		headers map[string]string
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		args   args
+		want   *httpclient.Response
+	}{
+		{
+			name:   "test GET https://qwu.zero-w.cn/",
+			fields: fields{HttpCli: http.DefaultClient},
+			args:   args{url: "https://qwu.zero-w.cn/", params: nil, headers: nil},
+			want: &httpclient.Response{
+				Content: `{"code":200,"result":null,"msg":null}`,
+				Status:  http.StatusOK,
+				Err:     nil,
+			},
+		},
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &httpclient.Client{
+				HttpCli: tt.fields.HttpCli,
+			}
+			if got := c.GET(tt.args.url, tt.args.params, tt.args.headers); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GET() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+
 }
 
 // benchmark GET
