@@ -56,8 +56,8 @@ func (u *UserHandler) Test(ctx *dragon.HttpContext) {
 
 	// mysql example
 	//log.Println("reqParams", fmt.Sprintf("%+v", ctx.GetRequestParams()))
-	userSrv := service.NewUserService(repository.GormDB) // 如果是事务处理，这个db可以为gorm的begin的db，只能从头传进去🤷‍
-	userInfo, _ := userSrv.GetOneByUserId(userReq.UserId)
+	userSrv := service.NewTUserService(repository.GormDB) // 如果是事务处理，这个db可以为gorm的begin的db，只能从头传进去🤷‍
+	userInfo, _ := userSrv.GetOne()
 	//log.Println("err:", err)
 
 	//res := dto.TStructToData(product, []string{"product_id", "product_name", "create_time"})

@@ -3,7 +3,6 @@ package repository
 import (
 	"dragon/core/dragon/conf"
 	"dragon/core/dragon/dlogger"
-	"errors"
 	"fmt"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql" //导入mysql驱动
@@ -18,14 +17,6 @@ import (
 var (
 	GormDB *gorm.DB //master db
 )
-
-// HasSeriousError 判断是否有致命错误，致命错误 不包含 (查询结果为空)， 错误不要进行log.Fatal处理，这个会让进程挂掉
-func HasSeriousError(res *gorm.DB) bool {
-	if res.Error != nil && (!errors.Is(res.Error, gorm.ErrRecordNotFound)) {
-		return true
-	}
-	return false
-}
 
 // Logger sql logger
 type Logger struct {
