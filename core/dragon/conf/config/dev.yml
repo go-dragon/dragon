@@ -16,8 +16,8 @@ database:
       database: travel
       charset: utf8mb4,utf8
       timeout: 3s  #connect timeout time
-      maxidle: 20  #maxIdle connections, db will at least serve 20 idle connections; if you set 0, that means no limit。
-      maxconn: 100  #maxConn connections, db will have 40 connections limit; if you set 0, that means no limit。
+      maxidle: 10  #maxIdle connections, db will at least serve 20 idle connections; if you set 0, that means no limit。
+      maxconn: 10  #maxConn connections, db will have 40 connections limit; if you set 0, that means no limit。
   redis:
     host: 127.0.0.1
     port: 6379
