@@ -96,6 +96,7 @@ func InitDB() {
 	log.Println("mysql maxOpenConn conns:", viper.GetInt("database.mysql.master.maxconn"))
 	sqlDb.SetMaxIdleConns(viper.GetInt("database.mysql.master.maxidle"))
 	sqlDb.SetMaxOpenConns(viper.GetInt("database.mysql.master.maxconn"))
-	sqlDb.SetConnMaxIdleTime(time.Hour)
-	sqlDb.SetConnMaxLifetime(24 * time.Hour)
+
+	sqlDb.SetConnMaxIdleTime(10 * 60 * time.Second) // 连接最大空闲时间为10分钟，超过则释放重新生成
+	sqlDb.SetConnMaxLifetime(30 * 60 * time.Second) // 每过30分钟，重新建立数据库连接
 }
