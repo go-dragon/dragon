@@ -5,7 +5,7 @@ import (
 	"dragon/domain/repository"
 	"dragon/domain/service"
 	"dragon/handler/reqdata"
-	"github.com/go-playground/validator/v10"
+	"dragon/tools/validator"
 	"net/http"
 )
 
@@ -31,7 +31,7 @@ func (u *UserHandler) Test(ctx *dragon.HttpContext) {
 		return
 	}
 
-	v := validator.New()
+	v := validator.NewValidator()
 	err = v.Struct(&userReq)
 	if err != nil {
 		ctx.Json(&dragon.Output{
