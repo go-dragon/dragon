@@ -35,7 +35,7 @@ type Output struct {
 }
 
 // output data structure
-type OutData struct {
+type outData struct {
 	Output
 	SpanId string `json:"span_id"`
 }
@@ -90,7 +90,7 @@ func (h *HttpContext) Json(data *Output, statusCode int) {
 		dlogger.Info(trackMan) // 最后写日志跟踪
 	}()
 	trackMan.Resp.Header = resp.Header()
-	outData := OutData{
+	outData := outData{
 		Output: *data,
 		SpanId: trackMan.SpanId,
 	}
