@@ -29,15 +29,15 @@ type HttpContext struct {
 
 // output struct
 type Output struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
+	Code int
+	Msg  string
+	Data interface{}
 }
 
 // output data structure
 type outData struct {
 	Output
-	SpanId string `json:"span_id"`
+	SpanId string
 }
 
 // GetReqParams get request params (get and post params)
