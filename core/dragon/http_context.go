@@ -77,8 +77,8 @@ func (h *HttpContext) BindPostJson(data interface{}) error {
 
 func (h *HttpContext) Json(data *Output, statusCode int) {
 	resp := h.Writer
-	resp.Header().Set("content-type", "application/json; charset=utf-8")
-	resp.Header().Set("x-server", "dragon")
+	resp.Header().Set("Content-Type", "application/json; charset=utf-8")
+	resp.Header().Set("X-Server", "dragon")
 	resp.Header().Set("Access-Control-Allow-Origin", "*")
 	resp.Header().Set("Access-Control-Allow-Methods", "POST,GET,OPTIONS,DELETE,PUT,PATCH")
 	resp.Header().Set("Access-Control-Allow-Credentials", "true")
