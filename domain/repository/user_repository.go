@@ -10,7 +10,7 @@ const (
 )
 
 type ITUserRepository interface {
-	GetOne() (*entity.TUserEntity, error)
+	GetOne() (*entity.UserEntity, error)
 }
 type TUserRepository struct {
 	MysqlDB *gorm.DB
@@ -21,8 +21,8 @@ func NewTUserRepository(db *gorm.DB) ITUserRepository {
 		MysqlDB: db,
 	}
 }
-func (this *TUserRepository) GetOne() (*entity.TUserEntity, error) {
-	var data entity.TUserEntity
+func (this *TUserRepository) GetOne() (*entity.UserEntity, error) {
+	var data entity.UserEntity
 	res := this.MysqlDB.Raw(GetOne).Scan(&data)
 	return &data, res.Error
 }

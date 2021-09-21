@@ -7,7 +7,7 @@ import (
 )
 
 type ITUserService interface {
-	GetOne() (*entity.TUserEntity, error)
+	GetOne() (*entity.UserEntity, error)
 }
 type TUserService struct {
 	TUserRepository repository.ITUserRepository
@@ -18,8 +18,8 @@ func NewTUserService(db *gorm.DB) ITUserService {
 		TUserRepository: repository.NewTUserRepository(db),
 	}
 }
-func (this *TUserService) GetOne() (*entity.TUserEntity, error) {
-	var data *entity.TUserEntity
+func (this *TUserService) GetOne() (*entity.UserEntity, error) {
+	var data *entity.UserEntity
 	data, err := this.TUserRepository.GetOne()
 	return data, err
 }
