@@ -9,19 +9,20 @@ const (
 	GetOne = `select * from t_user limit 1`
 )
 
-type ITUserRepository interface {
+type IUserRepository interface {
 	GetOne() (*entity.UserEntity, error)
 }
-type TUserRepository struct {
+type UserRepository struct {
 	MysqlDB *gorm.DB
 }
 
-func NewTUserRepository(db *gorm.DB) ITUserRepository {
-	return &TUserRepository{
+func NewTUserRepository(db *gorm.DB) IUserRepository {
+	return &UserRepository{
 		MysqlDB: db,
 	}
 }
-func (this *TUserRepository) GetOne() (*entity.UserEntity, error) {
+
+func (this *UserRepository) GetOne() (*entity.UserEntity, error) {
 	var data entity.UserEntity
 	res := this.MysqlDB.Raw(GetOne).Scan(&data)
 	return &data, res.Error

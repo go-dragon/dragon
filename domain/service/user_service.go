@@ -6,20 +6,20 @@ import (
 	"gorm.io/gorm"
 )
 
-type ITUserService interface {
+type IUserService interface {
 	GetOne() (*entity.UserEntity, error)
 }
-type TUserService struct {
-	TUserRepository repository.ITUserRepository
+type UserService struct {
+	UserRepository repository.IUserRepository
 }
 
-func NewTUserService(db *gorm.DB) ITUserService {
-	return &TUserService{
-		TUserRepository: repository.NewTUserRepository(db),
+func NewTUserService(db *gorm.DB) IUserService {
+	return &UserService{
+		UserRepository: repository.NewTUserRepository(db),
 	}
 }
-func (this *TUserService) GetOne() (*entity.UserEntity, error) {
+func (this *UserService) GetOne() (*entity.UserEntity, error) {
 	var data *entity.UserEntity
-	data, err := this.TUserRepository.GetOne()
+	data, err := this.UserRepository.GetOne()
 	return data, err
 }
