@@ -13,7 +13,7 @@ type UserService struct {
 	UserRepository repository.IUserRepository
 }
 
-func NewTUserService(db *gorm.DB) IUserService {
+func NewUserService(db *gorm.DB) IUserService {
 	return &UserService{
 		UserRepository: repository.NewTUserRepository(db),
 	}
