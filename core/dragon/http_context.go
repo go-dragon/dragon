@@ -80,9 +80,9 @@ func (h *HttpContext) Json(data *Output, statusCode int) {
 	resp.Header().Set("Content-Type", "application/json; charset=utf-8")
 	resp.Header().Set("X-Server", "dragon")
 	resp.Header().Set("Access-Control-Allow-Origin", "*")
-	resp.Header().Set("Access-Control-Allow-Methods", "POST,GET,OPTIONS,DELETE,PUT,PATCH")
+	resp.Header().Set("Access-Control-Allow-Methods", "*")
 	resp.Header().Set("Access-Control-Allow-Credentials", "true")
-	resp.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Content-Length, Accept-Encoding, Origin")
+	resp.Header().Set("Access-Control-Allow-Headers", "*")
 
 	trackInfo := h.Request.Header.Get(tracker.TrackKey)
 	trackMan := tracker.UnMarshal(trackInfo)
