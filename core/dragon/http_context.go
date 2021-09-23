@@ -122,7 +122,7 @@ func (h *HttpContext) Json(data *Output, statusCode int) {
 func (h *HttpContext) String(data string, statusCode int) {
 	resp := h.Writer
 	resp.Header().Set("X-Server", "dragon")
-	resp.Header().Set("Content-Type", "text/html;charset=utf-8")
+	resp.Header().Set("Content-Type", "text/html; charset=utf-8")
 	resp.Header().Set("Access-Control-Allow-Origin", "*")
 	resp.Header().Set("Access-Control-Allow-Methods", "*")
 	resp.Header().Set("Access-Control-Allow-Credentials", "true")

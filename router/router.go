@@ -35,8 +35,12 @@ func init() {
 
 // not found route handle
 func (notFoundHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
-	resp.Header().Set("Content-Type", "text/html; charset=utf-8")
 	resp.Header().Set("X-Server", "dragon")
+	resp.Header().Set("Content-Type", "text/html; charset=utf-8")
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
+	resp.Header().Set("Access-Control-Allow-Methods", "*")
+	resp.Header().Set("Access-Control-Allow-Credentials", "true")
+	resp.Header().Set("Access-Control-Allow-Headers", "*")
 	trackInfo := req.Header.Get(tracker.TrackKey)
 	trackMan := tracker.UnMarshal(trackInfo)
 	trackMan.Resp.Header = resp.Header()
@@ -48,8 +52,12 @@ func (notFoundHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 
 // all panic handler
 func panicHandler(resp http.ResponseWriter, req *http.Request, err interface{}) {
-	resp.Header().Set("Content-Type", "text/html; charset=utf-8")
 	resp.Header().Set("X-Server", "dragon")
+	resp.Header().Set("Content-Type", "text/html; charset=utf-8")
+	resp.Header().Set("Access-Control-Allow-Origin", "*")
+	resp.Header().Set("Access-Control-Allow-Methods", "*")
+	resp.Header().Set("Access-Control-Allow-Credentials", "true")
+	resp.Header().Set("Access-Control-Allow-Headers", "*")
 	resp.WriteHeader(http.StatusInternalServerError)
 	trackInfo := req.Header.Get(tracker.TrackKey)
 	trackMan := tracker.UnMarshal(trackInfo)
