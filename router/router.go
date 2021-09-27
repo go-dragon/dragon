@@ -52,6 +52,7 @@ func (notFoundHandler) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 
 // all panic handler
 func panicHandler(resp http.ResponseWriter, req *http.Request, err interface{}) {
+	recover()
 	resp.Header().Set("X-Server", "dragon")
 	resp.Header().Set("Content-Type", "text/html; charset=utf-8")
 	resp.Header().Set("Access-Control-Allow-Origin", "*")
@@ -69,5 +70,4 @@ func panicHandler(resp http.ResponseWriter, req *http.Request, err interface{}) 
 	if err != nil {
 		log.Println(err)
 	}
-	recover()
 }

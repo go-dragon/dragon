@@ -27,7 +27,7 @@ type HttpContext struct {
 	Params  httprouter.Params
 }
 
-// output struct
+// Output struct
 type Output struct {
 	Code int
 	Msg  string
