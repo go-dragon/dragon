@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/go-dragon/erro v0.0.4 // indirect
-	github.com/go-dragon/util v0.0.5
+	github.com/go-dragon/util v0.0.6
 	github.com/go-dragon/validator v1.0.0 // indirect
 	github.com/go-playground/validator/v10 v10.6.1
 	github.com/go-redis/redis v6.15.2+incompatible

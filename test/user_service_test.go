@@ -11,7 +11,7 @@ import (
 func TestUserService_TransactionTest(t *testing.T) {
 	dragon.AppInit()
 
-	userSrv := service.NewTUserService(repository.GormDB)
+	userSrv := service.NewUserService(repository.GormDB)
 	userInfo, _ := userSrv.GetOne()
 	log.Println(userInfo)
 

@@ -16,7 +16,7 @@ github.com/buger/jsonparser
 github.com/fsnotify/fsnotify
 # github.com/go-dragon/erro v0.0.4
 ## explicit
-# github.com/go-dragon/util v0.0.5
+# github.com/go-dragon/util v0.0.6
 ## explicit
 github.com/go-dragon/util
 # github.com/go-dragon/validator v1.0.0
