@@ -12,11 +12,10 @@ import (
 	"time"
 )
 
-// DefaultClient default http client pool
 var DefaultClient = NewClient(&Option{
 	DialContext: (&net.Dialer{
-		Timeout:   30 * time.Second,
-		KeepAlive: 60 * time.Second,
+		Timeout:   120 * time.Second,
+		KeepAlive: 15 * time.Second,
 	}).DialContext,
 	ForceAttemptHTTP2:     false,
 	MaxIdleConns:          20,
@@ -25,7 +24,7 @@ var DefaultClient = NewClient(&Option{
 	IdleConnTimeout:       90 * time.Second,
 	TLSHandshakeTimeout:   10 * time.Second,
 	ExpectContinueTimeout: 10 * time.Second,
-})
+}, 3*time.Second) // default 3s http request timeout
 
 type Client struct {
 	HttpCli *http.Client
@@ -49,7 +48,7 @@ type Option struct {
 
 // NewClient new a client, that means you need to handle  config your
 
-func NewClient(option *Option) *Client {
+func NewClient(option *Option, httpTimeout time.Duration) *Client {
 	trans := &http.Transport{
 		Proxy:                 http.ProxyFromEnvironment,
 		DialContext:           option.DialContext,
@@ -67,7 +66,7 @@ func NewClient(option *Option) *Client {
 		Transport:     trans,
 		CheckRedirect: nil,
 		Jar:           nil,
-		Timeout:       10 * time.Second,
+		Timeout:       httpTimeout,
 	}
 	return &Client{
 		HttpCli: httpCli,
