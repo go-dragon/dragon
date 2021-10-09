@@ -18,7 +18,7 @@ var (
 	GormDB *gorm.DB //master db
 )
 
-// Logger sql logger
+// Logger mapper logger
 type Logger struct {
 	logger.Writer
 }
@@ -28,7 +28,7 @@ func (l Logger) Printf(s string, i ...interface{}) {
 	// 日志打印
 	res, _ := regexp.MatchString("(Error)|(SLOW SQL)", s)
 
-	// if sql error
+	// if mapper error
 	if res {
 		dlogger.SqlError(s)
 	} else {

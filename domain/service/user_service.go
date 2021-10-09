@@ -15,7 +15,7 @@ type UserService struct {
 
 func NewUserService(db *gorm.DB) IUserService {
 	return &UserService{
-		UserRepository: repository.NewTUserRepository(db),
+		UserRepository: repository.NewUserRepository(db),
 	}
 }
 func (this *UserService) GetOne() (*entity.UserEntity, error) {
