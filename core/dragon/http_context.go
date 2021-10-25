@@ -44,6 +44,7 @@ type outData struct {
 // BindFormAndQueryParams parse query params (like: https://foo.com?v1=xxx&v2=xxx) and x-www-form-urlencoded params, bind to struct
 // if query contains >=1 repeated key params, only bind first key value
 // x-www-form-urlencoded params priority to query params
+// case-insensitive
 func (h *HttpContext) BindFormAndQueryParams(data interface{}) error {
 	var err error
 	h.Request.ParseForm()
