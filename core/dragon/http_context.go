@@ -20,7 +20,6 @@ type IHttpContext interface {
 	String(data string, statusCode int)
 }
 
-// HttpContext
 type HttpContext struct {
 	Request *http.Request
 	Writer  http.ResponseWriter
@@ -173,7 +172,7 @@ func (h *HttpContext) String(data string, statusCode int) {
 	}
 }
 
-// wrap the router for controller
+// WrapController wrap the router for controller
 func WrapController(handler func(ctx *HttpContext)) httprouter.Handle {
 
 	return func(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
