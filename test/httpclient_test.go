@@ -1,7 +1,7 @@
 package test
 
 import (
-	"dragon/httpclient"
+	"dragon/tools/httpclient"
 	"fmt"
 	"log"
 	"net/http"

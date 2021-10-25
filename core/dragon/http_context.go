@@ -24,7 +24,7 @@ type IHttpContext interface {
 type HttpContext struct {
 	Request *http.Request
 	Writer  http.ResponseWriter
-	Params  httprouter.Params
+	PathParams  httprouter.Params
 }
 
 // Output struct
@@ -58,6 +58,29 @@ func (h *HttpContext) GetReqParams() map[string]string {
 	}
 
 	return requests
+}
+
+// BindQueryParams parse query params (like: https://foo.com?v1=xxx&v2=xxx) bind to struct
+// if query contains >=1 repeated key params, only bind first key value
+func (h *HttpContext) BindQueryParams(data interface{}) error {
+	var err error
+	h.Request.ParseForm()
+	queryParams := make(map[string]string, len(h.Request.Form))
+	for k, v := range h.Request.Form{
+		queryParams[k] = v[0]
+	}
+	if err != nil {
+		return err
+	}
+	queryBytes, err := util.FastJson.Marshal(queryParams)
+	if err != nil {
+		return err
+	}
+	err = util.FastJson.Unmarshal(queryBytes, data)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // BindPostJson parse raw json bind to struct
@@ -157,7 +180,7 @@ func WrapController(handler func(ctx *HttpContext)) httprouter.Handle {
 		ctx := &HttpContext{
 			Request: request,
 			Writer:  writer,
-			Params:  params,
+			PathParams:  params, // path params like /path/:userId, not query params!!!
 		}
 		handler(ctx)
 	}
