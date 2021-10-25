@@ -14,8 +14,9 @@ import (
 
 // IHttpContext interface
 type IHttpContext interface {
+	BindFormAndQueryParams(data interface{}) error
+	BindRawJson(data interface{}) error
 	GetReqParams() map[string]string
-	BindPostJson(data interface{}) error
 	Json(data *Output, statusCode int)
 	String(data string, statusCode int)
 }
@@ -39,29 +40,11 @@ type outData struct {
 	SpanId string
 }
 
-// GetReqParams get request params (get and post params)
-func (h *HttpContext) GetReqParams() map[string]string {
-	requests := make(map[string]string)
-	var err error
-	err = h.Request.ParseForm()
-	if err != nil {
-		log.Println(err)
-		return requests
-	}
 
-	for k, v := range h.Request.Form {
-		if len(v) >= 1 {
-			// only select the 1st param
-			requests[k] = v[0]
-		}
-	}
-
-	return requests
-}
-
-// BindQueryParams parse query params (like: https://foo.com?v1=xxx&v2=xxx) bind to struct
+// BindFormAndQueryParams parse query params (like: https://foo.com?v1=xxx&v2=xxx) and x-www-form-urlencoded params, bind to struct
 // if query contains >=1 repeated key params, only bind first key value
-func (h *HttpContext) BindQueryParams(data interface{}) error {
+// x-www-form-urlencoded params priority to query params
+func (h *HttpContext) BindFormAndQueryParams(data interface{}) error {
 	var err error
 	h.Request.ParseForm()
 	queryParams := make(map[string]string, len(h.Request.Form))
@@ -82,8 +65,8 @@ func (h *HttpContext) BindQueryParams(data interface{}) error {
 	return nil
 }
 
-// BindPostJson parse raw json bind to struct
-func (h *HttpContext) BindPostJson(data interface{}) error {
+// BindRawJson parse request body raw json bind to struct. (POST,PUT,PATCH,DELETE etc.)
+func (h *HttpContext) BindRawJson(data interface{}) error {
 	var body []byte
 	var err error
 	body, err = ioutil.ReadAll(h.Request.Body)
@@ -96,6 +79,27 @@ func (h *HttpContext) BindPostJson(data interface{}) error {
 	}
 	return nil
 }
+
+// GetReqParams get request params (get and post params)
+func (h *HttpContext) GetReqParams() map[string]string {
+	requests := make(map[string]string)
+	var err error
+	err = h.Request.ParseForm()
+	if err != nil {
+		log.Println(err)
+		return requests
+	}
+
+	for k, v := range h.Request.Form {
+		if len(v) >= 1 {
+			// only select the 1st param
+			requests[k] = v[0]
+		}
+	}
+
+	return requests
+}
+
 
 func (h *HttpContext) Json(data *Output, statusCode int) {
 	resp := h.Writer

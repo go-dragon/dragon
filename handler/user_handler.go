@@ -21,7 +21,7 @@ func (u *UserHandler) Test(ctx *dragon.HttpContext) {
 	var userReq reqdata.UserReq
 	// bind json to struct
 	//gid := goroutine.CurGoroutineID()
-	err := ctx.BindPostJson(&userReq)
+	err := ctx.BindRawJson(&userReq)
 	if err != nil {
 		ctx.Json(&dragon.Output{
 			Code: http.StatusBadRequest,
