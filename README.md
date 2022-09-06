@@ -131,7 +131,7 @@ just create .fsw.json config:
 }
  
  ```
-> just run cmd
+> just run cmd and it can autoupdate
  ```
  $ fswatch
  ```
